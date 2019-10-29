@@ -3,7 +3,7 @@ package com.lastminute.pricing.calculator;
 import com.lastminute.VO.OrderVO;
 
 /**
- * Calculator to calculate the Totals
+ * Calculator to calculate the Totals.
  * 
  * @author Manuel Moranchel
  *
