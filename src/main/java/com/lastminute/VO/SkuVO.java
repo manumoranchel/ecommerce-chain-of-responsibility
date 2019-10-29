@@ -5,8 +5,7 @@ import java.util.UUID;
 /**
  * Representation of the product. Typically there is a relationship between
  * Product and Sku allowing the latter to hold product variations such as color,
- * size, etc.
- * For code readability we will simplify the example.
+ * size, etc. For code readability we will simplify the example.
  * 
  * @author Manuel Moranchel
  *
@@ -16,13 +15,17 @@ public class SkuVO {
 	private String productName;
 	private double listPrice;
 	private boolean isImported;
+	private Type skuType;
+	
+	private enum Type { FOOD, BOOKS, MEDICAL, OTHER}
 
-	public SkuVO(String id, String productName, double listPrice, boolean isImported) {
+	public SkuVO(String id, String productName, double listPrice, boolean isImported, Type skuType) {
 		super();
 		this.id = id;
 		this.productName = productName;
 		this.listPrice = listPrice;
 		this.isImported = isImported;
+		this.skuType = skuType;
 	}
 
 	public SkuVO() {
@@ -31,6 +34,7 @@ public class SkuVO {
 		this.productName = "";
 		this.listPrice = 0.0;
 		this.isImported = false;
+		this.skuType = Type.OTHER;
 	}
 
 	public String getId() {
@@ -65,10 +69,18 @@ public class SkuVO {
 		this.isImported = isImported;
 	}
 
+	public Type getSkuType() {
+		return skuType;
+	}
+
+	public void setSkuType(Type skuType) {
+		this.skuType = skuType;
+	}
+
 	@Override
 	public String toString() {
 		return "SkuVO [id=" + id + ", productName=" + productName + ", listPrice=" + listPrice + ", isImported="
-				+ isImported + "]";
+				+ isImported + ", skuType=" + skuType + "]";
 	}
 
 	@Override
@@ -81,6 +93,7 @@ public class SkuVO {
 		temp = Double.doubleToLongBits(listPrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((productName == null) ? 0 : productName.hashCode());
+		result = prime * result + ((skuType == null) ? 0 : skuType.hashCode());
 		return result;
 	}
 
@@ -107,7 +120,10 @@ public class SkuVO {
 				return false;
 		} else if (!productName.equals(other.productName))
 			return false;
+		if (skuType != other.skuType)
+			return false;
 		return true;
 	}
+
 
 }
