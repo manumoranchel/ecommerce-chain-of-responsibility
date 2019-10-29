@@ -23,28 +23,24 @@ public class CommerceItemVO {
 	private double listPrice;
 
 	/** Tax Price */
-	private double taxPrice;
-
-	/** Percentage of taxes */
-	private double taxPercentage;
+	private double taxAmmount;
 
 	/** Total price for all the items of this commerce item before taxes */
 	private double totalBasePrice;
 
 	/** Total price for all the items of this commerce item after taxes */
-	private double totalTaxPrice;
+	private double totalTaxAmount;
 
-	public CommerceItemVO(String id, SkuVO sku, int quantity, double listPrice, double taxPrice,
-			double taxPercentage, double totalBasePrice, double totalTaxPrice) {
+	public CommerceItemVO(String id, SkuVO sku, int quantity, double listPrice, double taxAmount,
+			double totalBasePrice, double totalTaxAmount) {
 		super();
 		this.id = id;
 		this.sku = sku;
 		this.quantity = quantity;
 		this.listPrice = listPrice;
-		this.taxPrice = taxPrice;
-		this.taxPercentage = taxPercentage;
+		this.taxAmmount = taxAmount;
 		this.totalBasePrice = totalBasePrice;
-		this.totalTaxPrice = totalTaxPrice;
+		this.totalTaxAmount = totalTaxAmount;
 	}
 
 	public CommerceItemVO() {
@@ -53,10 +49,9 @@ public class CommerceItemVO {
 		this.sku = null;
 		this.quantity = 0;
 		this.listPrice = 0.0;
-		this.taxPrice = 0.0;
-		this.taxPercentage = 0.0;
+		this.taxAmmount = 0.0;
 		this.totalBasePrice = 0.0;
-		this.totalTaxPrice = 0.0;
+		this.totalTaxAmount = 0.0;
 	}
 
 	public String getId() {
@@ -91,20 +86,12 @@ public class CommerceItemVO {
 		this.listPrice = listPrice;
 	}
 
-	public double getTaxPrice() {
-		return taxPrice;
+	public double getTaxAmount() {
+		return taxAmmount;
 	}
 
-	public void setTaxPrice(double taxPrice) {
-		this.taxPrice = taxPrice;
-	}
-
-	public double getTaxPercentage() {
-		return taxPercentage;
-	}
-
-	public void setTaxPercentage(double taxPercentage) {
-		this.taxPercentage = taxPercentage;
+	public void setTaxAmount(double taxPrice) {
+		this.taxAmmount = taxPrice;
 	}
 
 	public double getTotalBasePrice() {
@@ -115,19 +102,19 @@ public class CommerceItemVO {
 		this.totalBasePrice = totalBasePrice;
 	}
 
-	public double getTotalTaxPrice() {
-		return totalTaxPrice;
+	public double getTotalTaxAmount() {
+		return totalTaxAmount;
 	}
 
-	public void setTotalTaxPrice(double totalTaxPrice) {
-		this.totalTaxPrice = totalTaxPrice;
+	public void setTotalTaxAmount(double totalTaxAmount) {
+		this.totalTaxAmount = totalTaxAmount;
 	}
 
 	@Override
 	public String toString() {
-		return "CommerceItemVO [id=" + id + ", sku=" + sku + ", quantity=" + quantity + ", listPrice="
-				+ listPrice + ", taxPrice=" + taxPrice + ", taxPercentage=" + taxPercentage + ", totalBasePrice="
-				+ totalBasePrice + ", totalTaxPrice=" + totalTaxPrice + "]";
+		return "CommerceItemVO [id=" + id + ", sku=" + sku + ", quantity=" + quantity + ", listPrice=" + listPrice
+				+ ", taxAmmount=" + taxAmmount + ", totalBasePrice=" + totalBasePrice + ", totalTaxAmount="
+				+ totalTaxAmount + "]";
 	}
 
 	@Override
@@ -138,15 +125,13 @@ public class CommerceItemVO {
 		long temp;
 		temp = Double.doubleToLongBits(listPrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((sku == null) ? 0 : sku.hashCode());
 		result = prime * result + quantity;
-		temp = Double.doubleToLongBits(taxPercentage);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(taxPrice);
+		result = prime * result + ((sku == null) ? 0 : sku.hashCode());
+		temp = Double.doubleToLongBits(taxAmmount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(totalBasePrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(totalTaxPrice);
+		temp = Double.doubleToLongBits(totalTaxAmount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -167,21 +152,20 @@ public class CommerceItemVO {
 			return false;
 		if (Double.doubleToLongBits(listPrice) != Double.doubleToLongBits(other.listPrice))
 			return false;
+		if (quantity != other.quantity)
+			return false;
 		if (sku == null) {
 			if (other.sku != null)
 				return false;
 		} else if (!sku.equals(other.sku))
 			return false;
-		if (quantity != other.quantity)
-			return false;
-		if (Double.doubleToLongBits(taxPercentage) != Double.doubleToLongBits(other.taxPercentage))
-			return false;
-		if (Double.doubleToLongBits(taxPrice) != Double.doubleToLongBits(other.taxPrice))
+		if (Double.doubleToLongBits(taxAmmount) != Double.doubleToLongBits(other.taxAmmount))
 			return false;
 		if (Double.doubleToLongBits(totalBasePrice) != Double.doubleToLongBits(other.totalBasePrice))
 			return false;
-		if (Double.doubleToLongBits(totalTaxPrice) != Double.doubleToLongBits(other.totalTaxPrice))
+		if (Double.doubleToLongBits(totalTaxAmount) != Double.doubleToLongBits(other.totalTaxAmount))
 			return false;
 		return true;
 	}
+
 }

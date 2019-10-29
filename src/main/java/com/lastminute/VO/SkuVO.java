@@ -17,7 +17,7 @@ public class SkuVO {
 	private boolean isImported;
 	private Type skuType;
 	
-	private enum Type { FOOD, BOOKS, MEDICAL, OTHER}
+	public enum Type { FOOD, BOOKS, MEDICAL, OTHER}
 
 	public SkuVO(String id, String productName, double listPrice, boolean isImported, Type skuType) {
 		super();
