@@ -4,6 +4,7 @@ import com.lastminute.Constants;
 import com.lastminute.VO.CommerceItemVO;
 import com.lastminute.VO.OrderVO;
 import com.lastminute.VO.SkuVO;
+import com.lastminute.pricing.CalculatorTools;
 
 /**
  * Calculator to add the imported price
@@ -17,8 +18,8 @@ public class ImportedCalculator implements Calculator {
 	public OrderVO run(OrderVO order) {
 		for (CommerceItemVO ci : order.getCommerceItems()) {
 			if (isCommerceItemImported(ci.getsku())) {
-				ci.setTaxAmount(ci.getTaxAmount() + importedTax(ci));
-				ci.setTotalTaxAmount(ci.getQuantity() * ci.getTaxAmount());
+				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getTaxAmount() + importedTax(ci)));
+				ci.setTotalTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * ci.getTaxAmount()));
 			}
 		}
 		return order;
@@ -30,7 +31,7 @@ public class ImportedCalculator implements Calculator {
 	 * @param ci
 	 * @return
 	 */
-	private double importedTax(CommerceItemVO ci) {
+	protected double importedTax(CommerceItemVO ci) {
 		return ci.getsku().getListPrice() * Constants.IMPORTED_TAX_PERCENTAGE;
 	}
 
@@ -40,7 +41,7 @@ public class ImportedCalculator implements Calculator {
 	 * @param getsku
 	 * @return true if it is imported
 	 */
-	private boolean isCommerceItemImported(SkuVO sku) {
+	protected boolean isCommerceItemImported(SkuVO sku) {
 		return sku.isImported();
 	}
 

@@ -5,6 +5,7 @@ import com.lastminute.VO.CommerceItemVO;
 import com.lastminute.VO.OrderVO;
 import com.lastminute.VO.SkuVO;
 import com.lastminute.VO.SkuVO.Type;
+import com.lastminute.pricing.CalculatorTools;
 
 /**
  * Calculator to calculate the taxes
@@ -18,8 +19,8 @@ public class TaxCalculator implements Calculator{
 	public OrderVO run(OrderVO order) {
 		for (CommerceItemVO ci : order.getCommerceItems()) {
 			if (applytaxes(ci.getsku())) {
-				ci.setTaxAmount(ci.getTaxAmount() + taxdPrice(ci));
-				ci.setTotalTaxAmount(ci.getQuantity() * ci.getTaxAmount());
+				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getTaxAmount() + taxedPrice(ci)));
+				ci.setTotalTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * ci.getTaxAmount()));
 			}
 		}
 		return order;
@@ -30,7 +31,7 @@ public class TaxCalculator implements Calculator{
 	 * @param ci
 	 * @return
 	 */
-	private double taxdPrice(CommerceItemVO ci) {
+	protected double taxedPrice(CommerceItemVO ci) {
 		return ci.getsku().getListPrice() * Constants.TAX_PERCENTAGE;
 	}
 	
@@ -39,7 +40,7 @@ public class TaxCalculator implements Calculator{
 	 * @param sku
 	 * @return
 	 */
-	private boolean applytaxes(SkuVO sku) {
+	protected boolean applytaxes(SkuVO sku) {
 		return sku.getSkuType() == Type.OTHER;
 	}
 
