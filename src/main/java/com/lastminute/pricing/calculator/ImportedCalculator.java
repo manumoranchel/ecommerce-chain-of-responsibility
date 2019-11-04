@@ -18,9 +18,9 @@ public class ImportedCalculator implements Calculator {
 	public OrderVO run(OrderVO order) {
 		for (CommerceItemVO ci : order.getCommerceItems()) {
 			if (isCommerceItemImported(ci.getsku())) {
-				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getTaxAmount() + importedTax(ci)));
-				ci.setTotalTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * ci.getTaxAmount()));
+				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * (ci.getTaxAmount() + importedTax(ci))));
 			}
+			ci.setTotalPrice(CalculatorTools.roundPrice(ci.getTotalBasePrice() + ci.getTaxAmount()));
 		}
 		return order;
 	}

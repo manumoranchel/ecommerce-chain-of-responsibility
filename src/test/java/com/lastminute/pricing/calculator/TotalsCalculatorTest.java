@@ -24,7 +24,7 @@ public class TotalsCalculatorTest extends TotalsCalculator{
 		
 		order = run(order);
 		assertTrue(order.getTotalBasePrice() == 13.00);
-		assertTrue(order.getTotalTaxPrice() == 2.7);
+		assertTrue(order.getTotalPrice() == 2.7);
 		
 		
 	}

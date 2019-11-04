@@ -16,19 +16,19 @@ public class ImportedCalculatorTest extends ImportedCalculator {
 	@Test
 	public void testRun() {
 		SkuVO sku = new SkuVO("skuId", "SkuName", 10.99, true, Type.BOOKS);
-		CommerceItemVO ci = new CommerceItemVO("ciId", sku, 1, 10.99, 0, 0, 0);
+		CommerceItemVO ci = new CommerceItemVO("ciId", sku, 1, 10.99, 0, 10.99, 0);
 		
 		SkuVO sku1 = new SkuVO("skuId1", "SkuName1", 1.00, true, Type.OTHER);
-		CommerceItemVO ci1 = new CommerceItemVO("ciId", sku1, 2, 1.00, 0, 0, 0);
+		CommerceItemVO ci1 = new CommerceItemVO("ciId", sku1, 2, 1.00, 0, 1.00, 0);
 		
 		OrderVO order = new OrderVO("orderId", Lists.newArrayList(ci,ci1), 0.0, 0.0, 0.0);
 		
 		order = run(order);
 		assertTrue(ci.getTaxAmount() == 0.55);
-		assertTrue(ci1.getTaxAmount() == 0.05);
+		assertTrue(ci1.getTaxAmount() == 0.1);
 		
-		assertTrue(ci.getTotalTaxAmount() == 0.55);
-		assertTrue(ci1.getTotalTaxAmount() == 0.1);
+		assertTrue(ci.getTotalPrice() == 11.55);
+		assertTrue(ci1.getTotalPrice() == 1.1);
 		
 		
 	}

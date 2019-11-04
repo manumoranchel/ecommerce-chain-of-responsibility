@@ -9,38 +9,41 @@ import java.util.UUID;
  *
  */
 public class CommerceItemVO {
-	
-	/** Unique identifier*/
+
+	/** Unique identifier */
 	private String id;
 
-	/** Sku for the Commerce Item*/
+	/** Sku for the Commerce Item */
 	private SkuVO sku;
 
-	/** Quantity*/
+	/** Quantity */
 	private int quantity;
 
-	/** List Price. Please note it is important to keep this information. The Sku price can change after the order is completed*/
+	/**
+	 * List Price. Please note it is important to keep this information. The Sku
+	 * price can change after the order is completed
+	 */
 	private double listPrice;
 
 	/** Tax Price */
-	private double taxAmmount;
+	private double taxAmount;
 
 	/** Total price for all the items of this commerce item before taxes */
 	private double totalBasePrice;
 
 	/** Total price for all the items of this commerce item after taxes */
-	private double totalTaxAmount;
+	private double totalPrice;
 
-	public CommerceItemVO(String id, SkuVO sku, int quantity, double listPrice, double taxAmount,
-			double totalBasePrice, double totalTaxAmount) {
+	public CommerceItemVO(String id, SkuVO sku, int quantity, double listPrice, double taxAmount, double totalBasePrice,
+			double totalPrice) {
 		super();
 		this.id = id;
 		this.sku = sku;
 		this.quantity = quantity;
 		this.listPrice = listPrice;
-		this.taxAmmount = taxAmount;
+		this.taxAmount = taxAmount;
 		this.totalBasePrice = totalBasePrice;
-		this.totalTaxAmount = totalTaxAmount;
+		this.totalPrice = totalPrice;
 	}
 
 	public CommerceItemVO() {
@@ -49,9 +52,27 @@ public class CommerceItemVO {
 		this.sku = null;
 		this.quantity = 0;
 		this.listPrice = 0.0;
-		this.taxAmmount = 0.0;
+		this.taxAmount = 0.0;
 		this.totalBasePrice = 0.0;
-		this.totalTaxAmount = 0.0;
+		this.totalPrice = 0.0;
+	}
+
+	/**
+	 * Returns a printable version of the CommerceItem
+	 * 
+	 * @return the invoice
+	 */
+	public String printableInvoice() {
+		StringBuffer invoiceCi = new StringBuffer();
+		invoiceCi.append(quantity);
+		invoiceCi.append(" ");
+		if (getsku().isImported()) {
+			invoiceCi.append("Imported ");
+		}
+		invoiceCi.append(getsku().getProductName());
+		invoiceCi.append(": ");
+		invoiceCi.append(getTotalPrice());
+		return invoiceCi.toString();
 	}
 
 	public String getId() {
@@ -87,11 +108,11 @@ public class CommerceItemVO {
 	}
 
 	public double getTaxAmount() {
-		return taxAmmount;
+		return taxAmount;
 	}
 
 	public void setTaxAmount(double taxPrice) {
-		this.taxAmmount = taxPrice;
+		this.taxAmount = taxPrice;
 	}
 
 	public double getTotalBasePrice() {
@@ -102,19 +123,19 @@ public class CommerceItemVO {
 		this.totalBasePrice = totalBasePrice;
 	}
 
-	public double getTotalTaxAmount() {
-		return totalTaxAmount;
+	public double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setTotalTaxAmount(double totalTaxAmount) {
-		this.totalTaxAmount = totalTaxAmount;
+	public void setTotalPrice(double totalTaxAmount) {
+		this.totalPrice = totalTaxAmount;
 	}
 
 	@Override
 	public String toString() {
 		return "CommerceItemVO [id=" + id + ", sku=" + sku + ", quantity=" + quantity + ", listPrice=" + listPrice
-				+ ", taxAmmount=" + taxAmmount + ", totalBasePrice=" + totalBasePrice + ", totalTaxAmount="
-				+ totalTaxAmount + "]";
+				+ ", taxAmmount=" + taxAmount + ", totalBasePrice=" + totalBasePrice + ", totalTaxAmount=" + totalPrice
+				+ "]";
 	}
 
 	@Override
@@ -127,11 +148,11 @@ public class CommerceItemVO {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + quantity;
 		result = prime * result + ((sku == null) ? 0 : sku.hashCode());
-		temp = Double.doubleToLongBits(taxAmmount);
+		temp = Double.doubleToLongBits(taxAmount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(totalBasePrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(totalTaxAmount);
+		temp = Double.doubleToLongBits(totalPrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -159,11 +180,11 @@ public class CommerceItemVO {
 				return false;
 		} else if (!sku.equals(other.sku))
 			return false;
-		if (Double.doubleToLongBits(taxAmmount) != Double.doubleToLongBits(other.taxAmmount))
+		if (Double.doubleToLongBits(taxAmount) != Double.doubleToLongBits(other.taxAmount))
 			return false;
 		if (Double.doubleToLongBits(totalBasePrice) != Double.doubleToLongBits(other.totalBasePrice))
 			return false;
-		if (Double.doubleToLongBits(totalTaxAmount) != Double.doubleToLongBits(other.totalTaxAmount))
+		if (Double.doubleToLongBits(totalPrice) != Double.doubleToLongBits(other.totalPrice))
 			return false;
 		return true;
 	}

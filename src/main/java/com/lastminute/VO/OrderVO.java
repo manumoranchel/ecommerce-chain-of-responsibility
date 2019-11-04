@@ -12,24 +12,24 @@ import java.util.UUID;
  *
  */
 public class OrderVO {
-	
+
 	/** Unique identifier */
 	private String id;
-	
+
 	/** List of items in the order */
 	List<CommerceItemVO> commerceItems;
-	
+
 	/** Total taxes applied to the order */
-	private double taxPercentage;
-	
+	private double totalTaxAmount;
+
 	/** Total price before taxes */
 	private double totalBasePrice;
-	
+
 	/** Total price after taxes */
-	private double totalTaxPrice;
-	
-	public OrderVO(String id, List<CommerceItemVO> commerceItems, double taxPercentage, double totalBasePrice,
-			double totalTaxPrice) {
+	private double totalPrice;
+
+	public OrderVO(String id, List<CommerceItemVO> commerceItems, double totalTaxAmount, double totalBasePrice,
+			double totalPrice) {
 		super();
 		this.id = id;
 		if (commerceItems != null && !commerceItems.isEmpty()) {
@@ -37,18 +37,35 @@ public class OrderVO {
 		} else {
 			this.commerceItems = new ArrayList<CommerceItemVO>();
 		}
-		this.taxPercentage = taxPercentage;
+		this.totalTaxAmount = totalTaxAmount;
 		this.totalBasePrice = totalBasePrice;
-		this.totalTaxPrice = totalTaxPrice;
+		this.totalPrice = totalPrice;
 	}
-	
+
 	public OrderVO() {
 		super();
 		this.id = UUID.randomUUID().toString();
 		this.commerceItems = new ArrayList<CommerceItemVO>();
-		this.taxPercentage = 0.0;
+		this.totalTaxAmount = 0.0;
 		this.totalBasePrice = 0.0;
-		this.totalTaxPrice = 0.0;
+		this.totalPrice = 0.0;
+	}
+
+	/**
+	 * Returns a printable version of the order
+	 * 
+	 * @return the invoice
+	 */
+	public String printableInvoice() {
+		StringBuffer invoiceOrder = new StringBuffer();
+		for (CommerceItemVO ci : getCommerceItems()) {
+			invoiceOrder.append(ci.printableInvoice() + "\n");
+		}
+		invoiceOrder.append("Sales Taxes: ");
+		invoiceOrder.append(getTotalTaxAmount() + "\n");
+		invoiceOrder.append("Total: ");
+		invoiceOrder.append(getTotalPrice());
+		return invoiceOrder.toString();
 	}
 
 	public boolean add(CommerceItemVO commerceItem) {
@@ -75,12 +92,12 @@ public class OrderVO {
 		this.commerceItems = commerceItems;
 	}
 
-	public double getTaxPercentage() {
-		return taxPercentage;
+	public double getTotalTaxAmount() {
+		return totalTaxAmount;
 	}
 
-	public void setTaxPercentage(double taxPercentage) {
-		this.taxPercentage = taxPercentage;
+	public void setTotalTaxAmount(double taxPercentage) {
+		this.totalTaxAmount = taxPercentage;
 	}
 
 	public double getTotalBasePrice() {
@@ -91,18 +108,18 @@ public class OrderVO {
 		this.totalBasePrice = totalBasePrice;
 	}
 
-	public double getTotalTaxPrice() {
-		return totalTaxPrice;
+	public double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setTotalTaxPrice(double totalTaxPrice) {
-		this.totalTaxPrice = totalTaxPrice;
+	public void setTotalPrice(double totalTaxPrice) {
+		this.totalPrice = totalTaxPrice;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "OrderVO [id=" + id + ", commerceItems=" + commerceItems + ", taxPercentage=" + taxPercentage
-				+ ", totalBasePrice=" + totalBasePrice + ", totalTaxPrice=" + totalTaxPrice + "]";
+		return "OrderVO [id=" + id + ", commerceItems=" + commerceItems + ", taxPercentage=" + totalTaxAmount
+				+ ", totalBasePrice=" + totalBasePrice + ", totalTaxPrice=" + totalPrice + "]";
 	}
 
 	@Override
@@ -112,11 +129,11 @@ public class OrderVO {
 		result = prime * result + ((commerceItems == null) ? 0 : commerceItems.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		long temp;
-		temp = Double.doubleToLongBits(taxPercentage);
+		temp = Double.doubleToLongBits(totalTaxAmount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(totalBasePrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(totalTaxPrice);
+		temp = Double.doubleToLongBits(totalPrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -140,11 +157,11 @@ public class OrderVO {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (Double.doubleToLongBits(taxPercentage) != Double.doubleToLongBits(other.taxPercentage))
+		if (Double.doubleToLongBits(totalTaxAmount) != Double.doubleToLongBits(other.totalTaxAmount))
 			return false;
 		if (Double.doubleToLongBits(totalBasePrice) != Double.doubleToLongBits(other.totalBasePrice))
 			return false;
-		if (Double.doubleToLongBits(totalTaxPrice) != Double.doubleToLongBits(other.totalTaxPrice))
+		if (Double.doubleToLongBits(totalPrice) != Double.doubleToLongBits(other.totalPrice))
 			return false;
 		return true;
 	}

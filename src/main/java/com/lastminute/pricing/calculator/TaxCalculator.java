@@ -19,9 +19,9 @@ public class TaxCalculator implements Calculator{
 	public OrderVO run(OrderVO order) {
 		for (CommerceItemVO ci : order.getCommerceItems()) {
 			if (applytaxes(ci.getsku())) {
-				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getTaxAmount() + taxedPrice(ci)));
-				ci.setTotalTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * ci.getTaxAmount()));
+				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * (ci.getTaxAmount() + taxedPrice(ci))));
 			}
+			ci.setTotalPrice(CalculatorTools.roundPrice(ci.getTotalBasePrice() + ci.getTaxAmount()));
 		}
 		return order;
 	}

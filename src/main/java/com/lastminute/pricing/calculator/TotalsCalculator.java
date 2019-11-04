@@ -19,7 +19,8 @@ public class TotalsCalculator implements Calculator {
 			// re-round them. However this strategy might change over time hence adding the
 			// call to the round method
 			order.setTotalBasePrice(CalculatorTools.roundPrice(order.getTotalBasePrice() + ci.getTotalBasePrice()));
-			order.setTotalTaxPrice(CalculatorTools.roundPrice(order.getTotalTaxPrice() + ci.getTotalTaxAmount()));
+			order.setTotalTaxAmount(CalculatorTools.roundPrice(order.getTotalTaxAmount() + ci.getTaxAmount()));
+			order.setTotalPrice(CalculatorTools.roundPrice(order.getTotalPrice() + ci.getTotalPrice()));
 		}
 		return order;
 	}
