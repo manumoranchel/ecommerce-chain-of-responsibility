@@ -11,7 +11,7 @@ import com.lastminute.VO.OrderVO;
 public interface Calculator {
 
 	/**
-	 * Perform the required functionality over the order, populate the
+	 * Perform the required functionality over the order, populate its data
 	 * 
 	 * @return
 	 */

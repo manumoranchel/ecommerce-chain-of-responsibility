@@ -1,6 +1,8 @@
 package com.lastminute.pricing;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.common.collect.Lists;
 import com.lastminute.VO.OrderVO;
@@ -19,6 +21,8 @@ import com.lastminute.pricing.calculator.TotalsCalculator;
  */
 public class OrderCalculator {
 
+	static Logger logger = Logger.getLogger(OrderCalculator.class.getName());
+
 	/** List of calculators */
 	private List<Calculator> calculators;
 
@@ -35,6 +39,12 @@ public class OrderCalculator {
 
 		calculators = Lists.newArrayList(new ListPriceCalculator(), new TaxCalculator(), new ImportedCalculator(),
 				new TotalsCalculator());
+
+		logger.log(Level.INFO, "Setting up the configured calculators: ");
+		calculators.forEach(name -> {
+			logger.log(Level.INFO, name.getClass().getName());
+		});
+
 	}
 
 	/**
@@ -46,14 +56,14 @@ public class OrderCalculator {
 	public OrderVO calculateOrderPrice(OrderVO order) {
 
 		try {
-			for (Calculator calculator : getCalculators()) {
+			calculators.forEach(calculator -> {
 				calculator.run(order);
-			}
+			});
 			return order;
 
 		} catch (Exception e) {
-			// TODO MM to use logger
-			System.out.println(e);
+			// TODO do not catch Exception, catch it's subclasses instead. 
+			logger.log(Level.SEVERE, "Problem executing the price calculation", e);
 		}
 		return null;
 	}

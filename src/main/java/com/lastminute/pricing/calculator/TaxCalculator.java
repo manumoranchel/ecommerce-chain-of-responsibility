@@ -1,5 +1,8 @@
 package com.lastminute.pricing.calculator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.lastminute.Constants;
 import com.lastminute.VO.CommerceItemVO;
 import com.lastminute.VO.OrderVO;
@@ -14,25 +17,37 @@ import com.lastminute.pricing.CalculatorTools;
  *
  */
 public class TaxCalculator implements Calculator{
+	
+	static Logger logger = Logger.getLogger(TaxCalculator.class.getName());
 
 	@Override
 	public OrderVO run(OrderVO order) {
-		for (CommerceItemVO ci : order.getCommerceItems()) {
-			if (applytaxes(ci.getsku())) {
-				ci.setTaxAmount(CalculatorTools.roundPrice(ci.getQuantity() * (ci.getTaxAmount() + taxedPrice(ci))));
-			}
-			ci.setTotalPrice(CalculatorTools.roundPrice(ci.getTotalBasePrice() + ci.getTaxAmount()));
+		
+		if (logger.isLoggable(Level.FINE)) {
+			logger.log(Level.FINE, "Before calculating taxes for order: " + order);
 		}
+		
+		for (CommerceItemVO commerceItem : order.getCommerceItems()) {
+			if (applytaxes(commerceItem.getsku())) {
+				commerceItem.setTaxAmount(CalculatorTools.roundPrice(commerceItem.getQuantity() * (commerceItem.getTaxAmount() + taxedPrice(commerceItem))));
+			}
+			commerceItem.setTotalPrice(CalculatorTools.roundPrice(commerceItem.getTotalBasePrice() + commerceItem.getTaxAmount()));
+		}
+		
+		if (logger.isLoggable(Level.FINE)) {
+			logger.log(Level.FINE, "After calculating taxes for order: " + order);
+		}
+		
 		return order;
 	}
 
 	/**
 	 * Calculate the tax for products
-	 * @param ci
+	 * @param commerceItem
 	 * @return
 	 */
-	protected double taxedPrice(CommerceItemVO ci) {
-		return ci.getsku().getListPrice() * Constants.TAX_PERCENTAGE;
+	protected double taxedPrice(CommerceItemVO commerceItem) {
+		return commerceItem.getsku().getListPrice() * Constants.TAX_PERCENTAGE;
 	}
 	
 	/**
