@@ -1,84 +1,73 @@
 package com.lastminute;
 
-import com.google.common.collect.Lists;
-import com.lastminute.VO.CommerceItemVO;
-import com.lastminute.VO.OrderVO;
-import com.lastminute.VO.SkuVO;
-import com.lastminute.VO.SkuVO.Type;
-import com.lastminute.pricing.OrderCalculator;
+import java.util.LinkedList;
+import java.util.Queue;
 
-/**
- * Main class to execute the test required 
- * 
- * @author Manuel Moranchel
- *
- */
-public class Main {
-	
-	static OrderCalculator orderCalculator;
-	
-	public static void main(String[] args) {
-		orderCalculator = new OrderCalculator();
-		testInput1();
-		testInput2();
-		testInput3();
+class Main {
+  static class Node {
+    String name;
+    Node left;
+    Node right;
+
+    Node(String name) {
+      this.name = name;
+    }
+  }
+
+  private static Node buildTree() {
+    Node a = new Node("A");
+    Node b = new Node("B");
+    Node c = new Node("C");
+    Node d = new Node("D");
+    Node e = new Node("E");
+    Node f = new Node("F");
+    Node g = new Node("G");
+    Node h = new Node("H");
+    a.left = b;
+    a.right = c;
+
+    b.left = d;
+    b.right = e;
+
+    c.left = f;
+    c.right = g;
+
+    e.right = h;
+
+    return a;
+  }
+
+  static String traverse(Node root) {
+	  Queue<Node> ret = new LinkedList<Node>();
+	  String orderedString = root.name + " -> ";
+	  ret.addAll(getChilds(root));
+	  while (!ret.isEmpty()) {
+		Node currentNode = (Node) ret.remove();
+//		System.out.println("Adding Node" + currentNode.name);
+		ret.addAll(getChilds(currentNode));
+		orderedString += currentNode.name + " -> ";
+		
 	}
-	
-		public static void testInput1() {
-			SkuVO skuBook = new SkuVO("skuBook", "book", 12.49, false, Type.BOOKS);
-			CommerceItemVO ciBook = new CommerceItemVO("ciBook", skuBook, 1, 0, 0, 0, 0);
+	return orderedString.substring(0, orderedString.lastIndexOf(" -> "));
+  }
+  
+  static private Queue<Node> getChilds(Node node) {
+	  Queue<Node> ret = new LinkedList<Node>();
+	  if (node.left != null) {
+		  ret.add(node.left);
+	}
+	  if (node.right != null) {
+		  ret.add(node.right);
+	}
 
-			SkuVO skuCD = new SkuVO("skuCD", "CD", 14.99, false, Type.OTHER);
-			CommerceItemVO ciCD = new CommerceItemVO("ciCD", skuCD, 1, 0, 0, 0, 0);
+	 return ret;
+	  
+  }
+  
+  
 
-			SkuVO skuChocolate = new SkuVO("skuChocolate", "Chocolate bar", 0.85, false, Type.FOOD);
-			CommerceItemVO ciChocolate = new CommerceItemVO("ciChocolate", skuChocolate, 1, 0, 0, 0, 0);
-
-			OrderVO order = new OrderVO("orderId", Lists.newArrayList(ciBook, ciCD, ciChocolate), 0.0, 0.0, 0.0);
-
-			orderCalculator.calculateOrderPrice(order);
-			System.out.println("Output1:");
-			System.out.println(order.printableInvoice());
-			System.out.println();
-
-		}
-
-		public static void testInput2() {
-			SkuVO skuChocolateBox = new SkuVO("skuChocolateBox", "box of chocolates", 10, true, Type.OTHER);
-			CommerceItemVO ciChocolateBox = new CommerceItemVO("ciChocolateBox", skuChocolateBox, 1, 0, 0, 0, 0);
-
-			SkuVO skuBottlePerfume = new SkuVO("skuBottlePerfume", "bottle of perfume", 47.5, true, Type.OTHER);
-			CommerceItemVO ciBottlePerfume = new CommerceItemVO("ciBottlePerfume", skuBottlePerfume, 1, 0, 0, 0, 0);
-
-			OrderVO order = new OrderVO("orderId", Lists.newArrayList(ciChocolateBox, ciBottlePerfume), 0.0, 0.0, 0.0);
-
-			orderCalculator.calculateOrderPrice(order);
-			System.out.println("Output2:");
-			System.out.println(order.printableInvoice());
-			System.out.println();
-
-		}
-
-		public static void testInput3() {
-			SkuVO skuBottlePerfume = new SkuVO("skuBottlePerfume", "bottle of perfume", 27.99, true, Type.BOOKS);
-			CommerceItemVO ciBottlePerfume = new CommerceItemVO("ciBottlePerfume", skuBottlePerfume, 1, 0, 0, 0, 0);
-
-			SkuVO skuBottlePerfume1 = new SkuVO("skuBottlePerfume1", "bottle of perfume", 18.99, false, Type.OTHER);
-			CommerceItemVO ciBottlePerfume1 = new CommerceItemVO("ciBottlePerfume1", skuBottlePerfume1, 1, 0, 0, 0, 0);
-
-			SkuVO skuHeadachePills = new SkuVO("skuHeadachePills", "Headache pills", 9.75, false, Type.MEDICAL);
-			CommerceItemVO ciHeadachePills = new CommerceItemVO("ciHeadachePills", skuHeadachePills, 1, 0, 0, 0, 0);
-
-			SkuVO skuChocolate = new SkuVO("skuChocolate", "chocolates", 11.25, true, Type.OTHER);
-			CommerceItemVO ciChocolateBox = new CommerceItemVO("ciChocolateBox", skuChocolate, 1, 0, 0, 0, 0);
-
-			OrderVO order = new OrderVO("orderId", Lists.newArrayList(ciBottlePerfume, ciBottlePerfume1, ciHeadachePills, ciChocolateBox), 0.0, 0.0, 0.0);
-
-			orderCalculator.calculateOrderPrice(order);
-			System.out.println("Output3:");
-			System.out.println(order.printableInvoice());
-
-		}
-
-
+  public static void main(String[] args) {
+    Node root = buildTree();
+    System.out.println(traverse(root));
+  }
 }
