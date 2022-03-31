@@ -1,9 +1,6 @@
-# E-Commerce Project for LastMinute's interview
-
-This is an exercise to implement the request logic as part of LastMinute hiring process.
+# E-Commerce Project to test chain of resposibility pattern on a price calculator
 
 ## Description of the problem
-
 Basic sales tax is applicable at a rate of 10% on all goods, except books, food, and medical
 products that are exempt. Import duty is an additional sales tax applicable on all imported goods
 at a rate of 5%, with no exemptions.
@@ -14,11 +11,9 @@ paid. The rounding rules for sales tax are that for a tax rate of n%, a shelf pr
 (np/100 rounded up to the nearest 0.05) amount of sales tax.
 
 ## Configuration
-
 All the required configuration is added to the code. Simply run:
-	`gradle`
+`gradle`
 and the binaries will be created and tests executed
 
 ## Execution
-
 For the purpose of the exercise, a `Main.java` file has been created and can be executed to get the required output
